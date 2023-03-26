@@ -2,6 +2,7 @@
 # !python -m pip uninstall pynput --yes 
 # !python -m pip uninstall googletrans --yes 
 # !python -m pip uninstall speech_recognition --yes 
+# !python -m pip uninstall pyaudio --yes 
 
 import os
 import sys
@@ -12,71 +13,76 @@ def clear_screen():
     os.system('cls')
     clear_output()
 print("Đang kiểm tra yêu cầu phần mềm, vui lòng đợi ...")
-# try:
-#     import pyttsx3
-# except:
-#     print("Lỗi: thiếu thư viện pyttsx3")
-#     time.sleep(2)
-#     print('Đang tải thư viện pyttsx3')
-#     !{sys.executable} -m pip install pyttsx3
-#     time.sleep(1)
-#     clear_screen()
-#     print("Đã tải xong thư viện, tiếp tục trong giây lát...")
-#     time.sleep(2)
 
-# try:
-#     from pynput import keyboard
-# except:
-#     print("Lỗi: thiếu thư viện pynput")
-#     time.sleep(2)
-#     print('Đang tải thư viện pynput')
-#     !{sys.executable} -m pip install pynput
-#     time.sleep(1)
-#     clear_screen()
-#     print("Đã tải xong thư viện, tiếp tục trong giây lát...")
-#     time.sleep(2)
+er_count = 0
+
+try:
+    import pyttsx3
+except:
+    print("Lỗi: thiếu thư viện pyttsx3")
+    time.sleep(2)
+    print('Đang tải thư viện pyttsx3')
+    !{sys.executable} -m pip install pyttsx3
+    time.sleep(1)
+    clear_screen()
+    print("Đã tải xong thư viện, tiếp tục trong giây lát...")
+    time.sleep(2)
+    er_count +=1
+
+try:
+    import pyaudio
+except:
+    print("Lỗi: thiếu thư viện pyaudio")
+    time.sleep(2)
+    print('Đang tải thư viện pyaudio')
+    !{sys.executable} -m pip install pyaudio
+    time.sleep(1)
+    clear_screen()
+    print("Đã tải xong thư viện, tiếp tục trong giây lát...")
+    time.sleep(2)
+    er_count +=1
+
+try:
+    from pynput import keyboard
+except:
+    print("Lỗi: thiếu thư viện pynput")
+    time.sleep(2)
+    print('Đang tải thư viện pynput')
+    !{sys.executable} -m pip install pynput
+    time.sleep(1)
+    clear_screen()
+    print("Đã tải xong thư viện, tiếp tục trong giây lát...")
+    time.sleep(2)
+    er_count +=1
     
-# try:
-#     from googletrans import Translator
-# except:
-#     print("Lỗi: thiếu thư viện googletrans")
-#     time.sleep(2)
-#     print('Đang tải thư viện googletrans')
-#     !{sys.executable} -m pip install googletrans
-#     time.sleep(1)
-#     clear_screen()
-#     print("Đã tải xong thư viện, tiếp tục trong giây lát...")
-#     time.sleep(2)
+try:
+    from googletrans import Translator
+except:
+    print("Lỗi: thiếu thư viện googletrans")
+    time.sleep(2)
+    print('Đang tải thư viện googletrans')
+    !{sys.executable} -m pip install googletrans
+    time.sleep(1)
+    clear_screen()
+    print("Đã tải xong thư viện, tiếp tục trong giây lát...")
+    time.sleep(2)
+    er_count +=1
     
-# try:
-#     import speech_recognition as sr
-# except:
-#     print("Lỗi: thiếu thư viện speech_recognition")
-#     time.sleep(2)
-#     print('Đang tải thư viện speech_recognition')
-#     !{sys.executable} -m pip install speech_recognition
-#     time.sleep(1)
-#     clear_screen()
-#     print("Đã tải xong thư viện, tiếp tục trong giây lát...")
-#     time.sleep(2)
+try:
+    import speech_recognition as sr
+except:
+    print("Lỗi: thiếu thư viện speech_recognition")
+    time.sleep(2)
+    print('Đang tải thư viện speech_recognition')
+    !{sys.executable} -m pip install SpeechRecognition
+    time.sleep(1)
+    clear_screen()
+    print("Đã tải xong thư viện, tiếp tục trong giây lát...")
+    time.sleep(2)
+    er_count +=1
 
-def pip_install(package):
-    try:
-        __import__(package)
-    except ImportError:
-        print(f"Lỗi: thiếu thư viện {package}")
-        time.sleep(2)
-        print(f"Đang tải thư viện {package}")
-        !{sys.executable} -m pip install {package}
-        time.sleep(1)
-        os.system('cls' if os.name == 'nt' else 'clear')
-        print(f"Đã tải xong thư viện {package}, tiếp tục trong giây lát...")
-        time.sleep(2)
+    
 
-pip_install("pyttsx3")
-pip_install("pynput")
-pip_install("googletrans")
-pip_install("speech_recognition")
 
 def showMenu():
     print(
@@ -332,43 +338,45 @@ Hãy chọn chức năng :
         ''')
         print()
         mode = int(input('Nhập chức năng để tiếp tục  : '))
-        if mode == 3:
-            break
-#         while mode != 3:
-        elif mode == 1:
-            choice = isRecog()
-            if choice:
-                text = voice_recog("en-US")
-                engTrans(text)
-                input('Nhấn phím bất kỳ để quay lại : ')
-                continue
-            elif choice == -1:
+        try:
+            if mode == 3:
                 break
-            else:
-                clear_screen()
-#                     while True:
-                eng = input('Hãy nhập văn bản tiếng anh hoặc -1 để quay lại: ')
-                engTrans(eng)
-                input('Nhấn phím bất kỳ để quay lại : ')
-                continue
-        elif mode == 2:
-            choice = isRecog()
-            if choice:
-                text = voice_recog("vi-Vn")
-                vieTrans(text)
-                input('Nhấn phím bất kỳ để quay lại : ')
-                continue
-            elif choice == -1:
-                break
-            else:
-                clear_screen()
-#                     while True:
-                vie = input('Hãy nhập văn bản tiếng anh hoặc -1 để quay lại: ')
-                vieTrans(vie)
-                input('Nhấn phím bất kỳ để quay lại : ')
-                continue
-#             clear_screen()
-#             break
+            elif mode == 1:
+                choice = isRecog()
+                if choice:
+                    text = voice_recog("en-US")
+                    engTrans(text)
+                    input('Nhấn phím bất kỳ để quay lại : ')
+                    continue
+                elif choice == -1:
+                    break
+                else:
+                    clear_screen()
+                    eng = input('Hãy nhập văn bản tiếng anh hoặc -1 để quay lại: ')
+                    engTrans(eng)
+                    input('Nhấn phím bất kỳ để quay lại : ')
+                    continue
+            elif mode == 2:
+                choice = isRecog()
+                if choice:
+                    text = voice_recog("vi-Vn")
+                    vieTrans(text)
+                    input('Nhấn phím bất kỳ để quay lại : ')
+                    continue
+                elif choice == -1:
+                    break
+                else:
+                    clear_screen()
+                    vie = input('Hãy nhập văn bản tiếng anh hoặc -1 để quay lại: ')
+                    vieTrans(vie)
+                    input('Nhấn phím bất kỳ để quay lại : ')
+                    continue
+        except: 
+            print("Chức năng dịch đã bị vô hiệu hóa do không thể kết nối với Google API, xin vui lòng thử lại sau") 
+            time.sleep(1)
+            print("Quay về trong 3s ...")
+            time.sleep(3)
+
     clear_screen()
     return 
 
@@ -384,6 +392,7 @@ def engTrans(eng):
     print("Văn bản đã dịch: ",result.text)
 
 def vieTrans(vie):
+    
     clear_screen()
 #         vie = input('Hãy nhập văn bản tiếng việt hoặc -1 để quay lại: ')
     clear_screen()
@@ -549,6 +558,13 @@ def mainMenu():
             break
     print('Chuong trinh da dung')
 # time.sleep(3)
-print("Xin chào, chương trình đã hoàn tất thiết lập, khởi động sau giây lát ...")
+
 # time.sleep(2)
-mainMenu()
+if er_count > 0:
+    print("Xin chào, chương trình cài đặt xong, khởi động lại sau giây lát ...")
+    time.sleep(2)
+    os._exit(00)
+else:
+    print("Xin chào, chương trình đã hoàn tất thiết lập, khởi động sau giây lát ...")
+    time.sleep(2)
+    mainMenu()
